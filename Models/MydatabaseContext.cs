@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ShoppingList.Models;
 
-public partial class MydatabaseContext : DbContext
+public partial class MydatabaseContext : IdentityDbContext<IdentityUser>
 {
     public MydatabaseContext()
     {
@@ -37,10 +39,14 @@ public partial class MydatabaseContext : DbContext
             entity.Property(e => e.ShopName).HasMaxLength(450);
             entity.Property(e => e.UserId).HasMaxLength(450);
         });
+        base.OnModelCreating(modelBuilder); // これが必須
 
+        modelBuilder.Entity<IdentityUserLogin<string>>()
+            .HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
         OnModelCreatingPartial(modelBuilder);
     }
+
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

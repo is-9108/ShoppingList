@@ -1,0 +1,19 @@
+﻿@model ShoppingList
+@{
+    ViewData["Title"] = "Delete";
+}
+<h1>買い物リストの削除</h1>
+
+<dl>
+    <dt>買うもの</dt>
+    <dd>@Model.ItemName</dd>
+    <dt>店名</dt>
+    <dd>@Model.ShopName</dd>
+</dl>
+ 
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit">削除</button>
+</form>
+
+           

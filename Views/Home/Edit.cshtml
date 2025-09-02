@@ -1,0 +1,18 @@
+﻿@model ShoppingList
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>買い物リストの編集</h1>
+
+<form asp-action="Edit" method="post">
+    <div>
+        <label for="ItemName">買うもの</label>
+        <input type="text" id="ItemName" name="ItemName" asp-for="ItemName"/>
+    </div>
+    <div>
+        <label for="ShopName">店名</label>
+        <input type="text" id="ShopName" name="ShopName" asp-for="ShopName"/>
+    </div>
+    <button type="submit">編集</button>
+</form>
+           

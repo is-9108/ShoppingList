@@ -1,8 +1,60 @@
-﻿@{
+﻿@model IEnumerable<ShoppingList>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>買い物リスト</h1>
+<br />
+<a asp-action="Add">新しい買い物リストを作成</a>
+<br />
+<select name="filter" form="filter">
+    <option value="">すべて</option>
+    @foreach(var shop in ViewBag.Shops)
+    {
+        <option value="@shop">@shop</option>
+    }
+</select>
+<form method="get" id="filter" asp-action="Index" asp-route-page="" asp-route-filter="@ViewBag.Filter">
+    <button type="submit">絞り込み</button>
+</form>
+<br />
+
+@if(ViewBag.Prev != null)
+{
+    <a asp-action="Index" asp-route-page="@ViewBag.Prev" asp-route-filter="@ViewBag.Filter">前へ</a>
+}
+else
+{
+    <span>前へ</span>
+}
+@if(ViewBag.Next != null)
+{
+    <a asp-action="Index" asp-route-page="@ViewBag.Next" asp-route-filter="@ViewBag.Filter">次へ</a>
+}
+else
+{
+    <span>次へ</span>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ItemName)</th>
+            <th>@Html.DisplayNameFor(model => model.ShopName)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ItemName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ShopName)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">編集</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">削除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

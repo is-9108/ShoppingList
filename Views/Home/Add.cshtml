@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2>Add</h2>
+<form asp-action="Add" method="post">
+    <div>
+        <label for="ItemName">買うもの</label>
+        <input type="text" id="ItemName" name="ItemName" required />
+    </div>
+    <div>
+        <label for="ShopName">店名</label>
+        <input type="text" id="ShopName" name="ShopName" required />
+    </div>
+    <button type="submit">追加</button>
+</form>
