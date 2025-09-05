@@ -24,15 +24,15 @@ namespace ShoppingList.Controllers
         }
 
         private string? UserId => User?.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        
         
         public IActionResult Index(int? page, string filter)
         {
             if(filter == "‚·‚×‚Ä")
                 filter = null;
+
             if (page == null)
                 page = 0;
+
             int max = 10;
             ViewData["Filter"] = filter;
             var userId = UserId;
@@ -47,7 +47,7 @@ namespace ShoppingList.Controllers
             if (filter != null)
                 items = items.Where(s => s.ShopName == filter).ToList();
 
-            items.Skip(max * (page.Value + 1)).Take(5);
+            items.Skip(max * (page.Value + 1)).Take(max);
             if (page > 0)
                 ViewData["Prev"] = page.Value - 1;
             if (items.Count >= max)
