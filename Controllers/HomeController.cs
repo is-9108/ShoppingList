@@ -40,7 +40,7 @@ namespace ShoppingList.Controllers
                 return RedirectToAction("Error");
 
             var items = _context.ShoppingLists.Where(s => s.UserId == userId).ToList();
-            ViewData["Shops"] = items.Select(s => s.ShopName).ToList();
+            ViewData["Shops"] = items.GroupBy(s => s.ShopName).Select(g => g.First().ShopName).ToList();
 
             items = items.Skip(page.Value * max).Take(max).ToList();
 
@@ -66,7 +66,21 @@ namespace ShoppingList.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Delete(int? id)
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //        return NotFound();
+
+        //    var userId = UserId;
+        //    if (userId == null)
+        //        return RedirectToAction("Error");
+
+        //    var shoppingList = await _context.ShoppingLists.FindAsync(id);
+        //    if (shoppingList == null || shoppingList.UserId != userId)
+        //        return NotFound();
+        //    return View(shoppingList);
+        //}
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return NotFound();
@@ -77,20 +91,6 @@ namespace ShoppingList.Controllers
 
             var shoppingList = await _context.ShoppingLists.FindAsync(id);
             if (shoppingList == null || shoppingList.UserId != userId)
-                return NotFound();
-            return View(shoppingList);
-        }
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null) 
-                return NotFound();
-
-            var userId = UserId;
-            if (userId == null)
-                return RedirectToAction("Error");
-
-            var shoppingList = await _context.ShoppingLists.FindAsync(id);
-            if(shoppingList == null || shoppingList.UserId != userId)
                 return NotFound();
 
             return View(shoppingList);
@@ -110,7 +110,7 @@ namespace ShoppingList.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost,ActionName("Delete")]
+        [ActionName("Delete")]
         public async Task<IActionResult> DeleteItem(int? id)
         {
             if (id == null)
